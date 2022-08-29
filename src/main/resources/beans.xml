@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="autoFactory" class="org.example.AutoFactory">
+        <constructor-arg index="0" ref="sedan_production_line"/>
+    </bean>
+    <bean id="autoFactory1" class="org.example.AutoFactory">
+        <constructor-arg index="0" ref="hatchback_production_line"/>
+    </bean>
+
+    <bean id="hatchback_production_line" class="org.example.HatchBackProductionLine"/>
+    <bean id="sedan_production_line" class="org.example.SedanProductionLine"/>
+</beans>
