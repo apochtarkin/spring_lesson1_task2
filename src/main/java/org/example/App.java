@@ -1,20 +1,19 @@
 package org.example;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+
+import java.util.Arrays;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
+        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
         AutoFactory carFactory = ctx.getBean("autoFactory", AutoFactory.class);
-        carFactory.setProductionSize(2);
-        AutoFactory carFactory1 = ctx.getBean("autoFactory1", AutoFactory.class);
-        carFactory1.setProductionSize(4);
+        carFactory.setProductionSize(7);
         carFactory.runProduction();
-        carFactory1.runProduction();
-        System.out.println("Created sedan = " + carFactory.getCreatedCars());
-        System.out.println("Created hatchback = " + carFactory1.getCreatedCars());
+        System.out.println("Factory built " + carFactory.getCarsBuilt());
+        System.out.println(Arrays.toString(ctx.getBeanDefinitionNames()));
     }
 }

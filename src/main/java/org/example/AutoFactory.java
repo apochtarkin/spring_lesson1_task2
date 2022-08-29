@@ -1,15 +1,24 @@
 package org.example;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@Component
+@Scope("prototype")
 public class AutoFactory {
     private int productionSize;
     private ProductionLine productionLine;
-    private ArrayList<Car> cars = new ArrayList<Car>();
+    private int carsBuilt = 0;
 
-    public AutoFactory(ProductionLine productionLine) {
+    @Autowired
+    public AutoFactory(@Qualifier("sedanPL") ProductionLine productionLine) {
         this.productionLine = productionLine;
+        productionSize = 5;
     }
 
     public AutoFactory(int productionSize, ProductionLine productionLine) {
@@ -18,10 +27,10 @@ public class AutoFactory {
     }
 
     public void runProduction() {
-        int carsBuilt = 0;
         while (carsBuilt < productionSize) {
-            cars.add(productionLine.work());
-            carsBuilt++;
+            if (productionLine.work().isPartsDelivered()) {
+                carsBuilt++;
+            }
         }
     }
 
@@ -33,7 +42,7 @@ public class AutoFactory {
         this.productionSize = productionSize;
     }
 
-    public int getCreatedCars() {
-        return cars.size();
+    public int getCarsBuilt() {
+        return carsBuilt;
     }
 }
